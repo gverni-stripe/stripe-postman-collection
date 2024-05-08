@@ -1,0 +1,853 @@
+{
+	"info": {
+		"_postman_id": "3da100c8-e07a-40a0-9ed0-f8d5c4848f56",
+		"name": "Usage-based model subscription Simulation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18725361"
+	},
+	"item": [
+		{
+			"name": "Create Product and Price",
+			"item": [
+				{
+					"name": "/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"product_id\", pm.response.json().id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Usage-model Product",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/products",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/prices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"price_id\", pm.response.json().id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "billing_scheme",
+									"value": "per_unit",
+									"type": "text"
+								},
+								{
+									"key": "recurring[interval]",
+									"value": "month",
+									"type": "text"
+								},
+								{
+									"key": "recurring[aggregate_usage]",
+									"value": "last_ever",
+									"type": "text"
+								},
+								{
+									"key": "recurring[usage_type]",
+									"value": "metered",
+									"type": "text"
+								},
+								{
+									"key": "recurring[interval_count]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "currency",
+									"value": "gbp",
+									"type": "text"
+								},
+								{
+									"key": "unit_amount_decimal",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "Usage model unit price",
+									"type": "text"
+								},
+								{
+									"key": "product",
+									"value": "{{product_id}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/prices",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"prices"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Simulation",
+			"item": [
+				{
+					"name": "/test_helpers/test_clocks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"test_clock_id\", pm.response.json().id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1705343700",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Usage-based subscription Test Clock",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"customer_id\", pm.response.json().id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Jenny Rosen",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Usage-based Subscription Simulation Customer",
+									"type": "text"
+								},
+								{
+									"key": "test_clock",
+									"value": "{{test_clock_id}}",
+									"type": "text"
+								},
+								{
+									"key": "payment_method",
+									"value": "pm_card_visa",
+									"type": "text"
+								},
+								{
+									"key": "invoice_settings[default_payment_method]",
+									"value": "pm_card_visa",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/customers",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Create a new Test Clock and Customer"
+		},
+		{
+			"name": "Create Subscription",
+			"item": [
+				{
+					"name": "/subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"subscription_item_id\", pm.response.json().items.data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "customer",
+									"value": "{{customer_id}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Usage-based subscription",
+									"type": "text"
+								},
+								{
+									"key": "billing_cycle_anchor",
+									"value": "1706875200",
+									"type": "text"
+								},
+								{
+									"key": "items[0][price]",
+									"value": "{{price_id}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/subscriptions",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscription_items/{subscription_item}/usage_records",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "quantity",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "set",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/subscription_items/:id/usage_records",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"subscription_items",
+								":id",
+								"usage_records"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{subscription_item_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Create a new Subscription and set initial usage record"
+		},
+		{
+			"name": "First Billing Cycle",
+			"item": [
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1706950800",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1707987600",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscription_items/{subscription_item}/usage_records",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "quantity",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "set",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/subscription_items/:id/usage_records",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"subscription_items",
+								":id",
+								"usage_records"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{subscription_item_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Events for the first billing cycle"
+		},
+		{
+			"name": "Second Billing Cycle",
+			"item": [
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1709456400",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1709715600",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscription_items/{subscription_item}/usage_records",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "quantity",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "set",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/subscription_items/:id/usage_records",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"subscription_items",
+								":id",
+								"usage_records"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{subscription_item_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1710579600",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscription_items/{subscription_item}/usage_records",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "quantity",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "set",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/subscription_items/:id/usage_records",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"subscription_items",
+								":id",
+								"usage_records"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{subscription_item_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Events for the second billing cycle"
+		},
+		{
+			"name": "Third Billing Cycle",
+			"item": [
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1712131200",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Events for the third billing cycle"
+		},
+		{
+			"name": "Fourth Billing Cycle",
+			"item": [
+				{
+					"name": "/test_helpers/test_clocks/{test_clock}/advance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "frozen_time",
+									"value": "1714723200",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/test_helpers/test_clocks/:id/advance",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"test_helpers",
+								"test_clocks",
+								":id",
+								"advance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{test_clock_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Events for the fourth billing cycle"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{secret_key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "secret_key",
+			"value": "<Your Stripe (Test mode) secret key>"
+		},
+		{
+			"key": "test_clock_id",
+			"value": "<This will be set in \"Create Simulation\">"
+		},
+		{
+			"key": "product_id",
+			"value": "<This will be set in \"Create Product and Price\">"
+		},
+		{
+			"key": "price_id",
+			"value": "<This will set in \"Create Product and Price\">"
+		},
+		{
+			"key": "subscription_item_id",
+			"value": "<This will set in \"Create Subscription\">"
+		}
+	]
+}
