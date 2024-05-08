@@ -1,0 +1,423 @@
+{
+	"info": {
+		"_postman_id": "47de02d6-3284-4bf2-a569-cabe9369a170",
+		"name": "Create A Connected Account",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18725361"
+	},
+	"item": [
+		{
+			"name": "Create a UK Custom Connect Account",
+			"item": [
+				{
+					"name": "/accounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"connected_account_id\", pm.response.json().id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "business_profile[mcc]",
+									"value": "5734",
+									"type": "text"
+								},
+								{
+									"key": "business_profile[name]",
+									"value": "Connected Account",
+									"type": "text"
+								},
+								{
+									"key": "business_profile[product_description]",
+									"value": "Product Description",
+									"type": "text"
+								},
+								{
+									"key": "business_type",
+									"value": "company",
+									"type": "text"
+								},
+								{
+									"key": "company[address][city]",
+									"value": "London",
+									"type": "text"
+								},
+								{
+									"key": "company[address][country]",
+									"value": "GB",
+									"type": "text"
+								},
+								{
+									"key": "company[address][line1]",
+									"value": "21 Old Street",
+									"type": "text"
+								},
+								{
+									"key": "company[address][postal_code]",
+									"value": "EC1M 7AD",
+									"type": "text"
+								},
+								{
+									"key": "company[address][state]",
+									"value": "null",
+									"type": "text"
+								},
+								{
+									"key": "company[name]",
+									"value": "Connected Account (DBA)",
+									"type": "text"
+								},
+								{
+									"key": "company[phone]",
+									"value": "+447400123456",
+									"type": "text"
+								},
+								{
+									"key": "company[tax_id]",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "default_currency",
+									"value": "gbp",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "custom",
+									"type": "text"
+								},
+								{
+									"key": "capabilities[card_payments][requested]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "capabilities[transfers][requested]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "tos_acceptance[date]",
+									"value": "1609798905",
+									"type": "text"
+								},
+								{
+									"key": "tos_acceptance[ip]",
+									"value": "8.8.8.8",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/accounts",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/{account}/persons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"person_id\", pm.response.json().id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "John",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Doe",
+									"type": "text"
+								},
+								{
+									"key": "address[city]",
+									"value": "London",
+									"type": "text"
+								},
+								{
+									"key": "address[country]",
+									"value": "GB",
+									"type": "text"
+								},
+								{
+									"key": "address[line1]",
+									"value": "21 Old Street",
+									"type": "text"
+								},
+								{
+									"key": "address[postal_code]",
+									"value": "EC1M 7AD",
+									"type": "text"
+								},
+								{
+									"key": "dob[day]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "dob[month]",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "dob[year]",
+									"value": "1970",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "jdoe@email.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "+447400123456",
+									"type": "text"
+								},
+								{
+									"key": "id_number",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "relationship[director]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "relationship[executive]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "relationship[owner]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "relationship[representative]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "relationship[title]",
+									"value": "CEO",
+									"type": "text"
+								},
+								{
+									"key": "verification[document][front]",
+									"value": "file_identity_document_success",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/accounts/:id/persons",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								":id",
+								"persons"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{connected_account_id}}",
+									"description": "Connected Account ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/{account}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "company[owners_provided]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "company[directors_provided]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "company[executives_provided]",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "company[ownership_declaration][ip]",
+									"value": "127.0.0.1",
+									"type": "text"
+								},
+								{
+									"key": "company[ownership_declaration][date]",
+									"value": "1715193372",
+									"type": "text"
+								},
+								{
+									"key": "external_account",
+									"value": "btok_gb_gbp",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/accounts/:id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{connected_account_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/{account}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://api.stripe.com/v1/accounts/:id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"stripe",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{connected_account_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{secret_key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "secret_key",
+			"value": ""
+		},
+		{
+			"key": "connected_account_id",
+			"value": ""
+		},
+		{
+			"key": "person_id",
+			"value": ""
+		}
+	]
+}
