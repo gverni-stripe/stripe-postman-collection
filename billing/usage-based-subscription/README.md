@@ -2,7 +2,7 @@
 
 This repo contains a Postman Collection for Stripe [Usage-Based Model Subscription](https://stripe.com/docs/billing/subscriptions/usage-based?locale=en-GB#lifecycle). The collection implements the following flow: 
 
-![image](https://github.com/gverni-stripe/stripe-postman-usage-based-subscription/assets/95485729/8cd6cbf5-4e5a-41e2-88a5-b57048d08401)
+![image](https://github.com/gverni-stripe/stripe-postman-collection/assets/95485729/313b107d-80ce-4521-9688-0fa023421fbc)
 
 ## How to use
 * Download the collection 
