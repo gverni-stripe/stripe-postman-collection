@@ -1,4 +1,4 @@
-# stripe-postman-usage-based-subscription
+# Usage based subscription
 
 This repo contains a Postman Collection for Stripe [Usage-Based Model Subscription](https://stripe.com/docs/billing/subscriptions/usage-based?locale=en-GB#lifecycle). The collection implements the following flow: 
 
