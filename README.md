@@ -1,2 +1,1 @@
-# stripe-postman-collection
-My personal collection of Stripe postman files
+# My Personal collection of postman files for Stripe use cases
