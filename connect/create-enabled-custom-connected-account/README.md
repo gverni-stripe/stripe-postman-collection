@@ -2,7 +2,7 @@
 
 This collection is made of three steps: 
 
-## Step 1 Create an Custom Connected Account
+## Step 1 Create a Custom Connected Account
 
 ```
 curl --location 'https://api.stripe.com/v1/accounts' \
